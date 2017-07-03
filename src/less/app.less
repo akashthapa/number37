@@ -1,0 +1,191 @@
+@import "mobile-angular-ui/src/less/mobile-angular-ui-base.less";
+@import "mixins.less";
+@import "variables.less";
+body {
+  font-size: 16px;
+}
+.bg-red {
+  background-color: @red;
+  color: @white;
+}
+
+.bg-black {
+  background-color: @black;
+  color: @white;
+}
+
+.bg-green {
+  background-color: @green;
+  color: @white;
+}
+
+#result .scrollable-footer .section {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+#result form .number {
+  min-width: 100px;
+}
+
+#numberfield {
+  width: 40px;
+}
+
+#result .scrollable-footer a {
+  //  margin: 5px 0px 0px;
+  display: block;
+}
+
+.keypad .keypad-item {
+  border-radius: 0;
+  width: 40px;
+  height: 40px;
+  line-height: 40px;
+  padding: 0;
+  border: 0 none;
+}
+
+.keypad {
+  text-align: center;
+}
+
+.keypad .active {
+  background-color: tomato;
+  color: #fff;
+}
+
+.last-number {
+  font-size: 40px;
+  font-weight: bold;
+}
+
+label.btn {
+  outline: 0;
+}
+
+#trigger {
+  font-size: 20px;
+
+  .black {
+    background-color: #000101;
+  }
+
+  .red {
+    background-color: red;
+    color: red;
+  }
+
+  .well {
+    border: 0 none;
+  }
+}
+
+.neighbours {
+  font-size: 18px;
+}
+
+#nav-bottom .btn-group {
+  background-color: #333;
+
+  a {
+    color: lightgray;
+  }
+}
+
+#config-table {
+  td, th {
+    vertical-align: middle;
+  }
+  tr:first-child > td, tr:first-child > th {
+    border-top: 0 none;
+  }
+
+  ui-switch {
+    float: right;
+  }
+}
+
+.streets {
+  b {
+    padding: 3px 5px;
+  }
+  .street-1 {
+    background-color: #0000f6;
+    color: #ffffff;
+  }
+  .street-2 {
+    background-color: red;
+    color: #fff;
+  }
+  .street-3 {
+    background-color: mediumpurple;
+  }
+  .street-4 {
+    background-color: lightblue;
+  }
+  .street-5 {
+    background-color: #000000;
+    color: #fff;
+  }
+  .street-6 {
+    background-color: green;
+    color: #fff;
+  }
+}
+
+.row-street {
+
+  margin-left: 0;
+  margin-right: 0;
+  font-weight: bold;
+
+  .tr .td {
+    float: left;
+  }
+
+  .td {
+    line-height: 34px;
+    width: 42px;
+    text-align: center;
+  }
+
+  .street {
+    background-color: #E9E9E9;
+  }
+
+  .count {
+    background-color: #000066;
+    color: white;
+    font-size: 24px;
+  }
+}
+
+.results {
+  b {
+    background-color: #000;
+    padding: 3px 5px;
+  }
+  .green {
+    color: lightgreen;
+  }
+  .red {
+    color: salmon;
+  }
+  .black {
+    color: white;
+  }
+}
+
+.nohit-numbers {
+  text-align: center;
+  margin: 0;
+  padding: 0;
+
+  li {
+    display: inline;
+    list-style: none;
+    padding: 2px 3px;
+    margin: 0;
+  }
+}

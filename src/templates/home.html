@@ -1,0 +1,49 @@
+<div class="scrollable" ng-controller="ResultController as result">
+    <div class="scrollable-content">
+        <div class="section">
+            <div class="keypad">
+                <label class="btn btn-default keypad-item keypad-item-{{key}}"
+                       ng-class="{active: main.$storage.lastNumber.number == key}"
+                       ng-repeat="key in result.keypadNumbers track by $index" ng-click="result.addResult(key)">{{key}}
+                </label>
+                <label ng-if="main.$storage.lastNumber" class="btn btn-default keypad-item"
+                       ng-click="result.undoResult()"><i class="fa fa-undo"></i></label>
+            </div>
+
+            <div ng-if="main.$storage.nohit.length == 18">
+                <p class="text-center">----- {{ main.$storage.nohit.length }} -----</p>
+                <ul class="nohit-numbers">
+                    <li ng-repeat="n in main.$storage.nohit | orderBy:'count' track by $index ">
+                        {{n.number}}
+                    </li>
+                </ul>
+            </div>
+
+            <div ng-if="main.$storage.nohit.length != 18" class="text-center text-success">
+                Please wait..... ({{ main.$storage.nohit.length }})
+            </div>
+
+            <br/>
+            <p class="text-center">----- Cold & Hot -----</p>
+
+            <div class="row-numbers">
+                <span ng-repeat="n in main.$storage.numbers | orderBy:'count' track by $index ">
+                    {{n.number}}(<strong>{{n.count}}</strong>)
+                </span>
+            </div>
+
+            <br/>
+            <p class="text-center">
+                <a href="javascript:void(0)" ng-click="result.reset()"><strong>RESET</strong></a>
+                result (<strong>{{main.$storage.lastNumber.number}}</strong>)
+                count (<strong>{{main.$storage.results.length}}</strong>)
+            </p>
+
+            <br/>
+            <p ng-if="main.$storage.results.length" class="results">
+                <b ng-repeat="result in main.$storage.results | limitTo:6 track by $index " class="{{result.color}}">{{result.number}} </b>
+            </p>
+
+        </div>
+    </div>
+</div>
