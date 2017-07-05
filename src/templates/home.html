@@ -10,18 +10,40 @@
                        ng-click="result.undoResult()"><i class="fa fa-undo"></i></label>
             </div>
 
-            <div ng-if="main.$storage.nohit.length == 18">
-                <p class="text-center">----- {{ main.$storage.nohit.length }} -----</p>
+            <div ng-if="main.$storage.nohit.length > 10 && main.$storage.nohit.length < 24">
+                <p class="text-center">----- Non Appeared {{ main.$storage.nohit.length }} -----</p>
                 <ul class="nohit-numbers">
-                    <li ng-repeat="n in main.$storage.nohit | orderBy:'count' track by $index ">
+                    <li ng-repeat="n in main.$storage.nohit track by $index ">
                         {{n.number}}
                     </li>
                 </ul>
             </div>
 
-            <div ng-if="main.$storage.nohit.length != 18" class="text-center text-success">
-                Please wait..... ({{ main.$storage.nohit.length }})
+            <div ng-if="main.$storage.nohit.length > 24 && main.$storage.nohit.length < 12" class="text-center text-success">
+                Please wait.....
             </div>
+
+            <div ng-if="main.$storage.lastTwentyOutcome.length > 10 && main.$storage.lastTwentyOutcome.length < 24">
+                <p class="text-center">----- Appeared {{ main.$storage.lastTwentyOutcome.length }} -----</p>
+                <ul class="nohit-numbers">
+                    <li ng-repeat="n in main.$storage.lastTwentyOutcome | orderBy:'number' track by $index ">
+                        {{n.number}}
+                    </li>
+                </ul>
+            </div>
+            <br>
+            <table class="table table-responsive">
+                <tr>
+                    <th>Total</th>
+                    <th>Appeared</th>
+                    <th>Not Appeared</th>
+                </tr>
+                <tr>
+                    <td>{{ main.$storage.percentage.total }}</td>
+                    <td>{{ main.$storage.percentage.appeared }}</td>
+                    <td>{{ main.$storage.percentage.nonAppeared }}</td>
+                </tr>
+            </table>
 
             <br/>
             <p class="text-center">----- Cold & Hot -----</p>
@@ -41,7 +63,7 @@
 
             <br/>
             <p ng-if="main.$storage.results.length" class="results">
-                <b ng-repeat="result in main.$storage.results | limitTo:6 track by $index " class="{{result.color}}">{{result.number}} </b>
+                <b ng-repeat="result in main.$storage.results track by $index " class="{{result.color}}">{{result.number}} </b>
             </p>
 
         </div>

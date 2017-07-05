@@ -12,6 +12,7 @@
      */
     function ResultController($localStorage, databaseService, Result, uscore) {
         var vm = this;
+        var limit = 21;
         //keypad number 0-36
         vm.keypadNumbers = getKeypadNumbers();
 
@@ -23,23 +24,53 @@
         //add new result
         function addResult(num) {
             Result.add(num);
-            last20();
+            calculatePercentage();
+            last20NotSeenNumbers();
         }
 
-        function last20() {
+        function last20NotSeenNumbers() {
+            var last20;
             databaseService.resetNohit();
 
             var len = $localStorage.results.length;
-                var i = 0;
-                while (i < $localStorage.results.length){
-                    var result = $localStorage.results[i];
-                    if($localStorage.nohit.length > 18){
-                        uscore.remove($localStorage.nohit, {number: result.number});
-                    }
-                    i++;
+            if(len < limit){
+                return;
+            }
+
+            last20 = $localStorage.results.slice(0, limit);
+
+            angular.forEach(last20, function (result) {
+                uscore.remove($localStorage.nohit, {number: result.number});
+
+                if(!uscore.find($localStorage.lastTwentyOutcome, {number: result.number})){
+                    $localStorage.lastTwentyOutcome.unshift(result);
                 }
+            });
+
+            angular.forEach($localStorage.lastTwentyOutcome, function (outcome) {
+                var numbers = uscore.filter(last20, { number : outcome.number });
+                if(numbers.length > 1){
+                    uscore.remove($localStorage.lastTwentyOutcome, { number : outcome.number });
+                }
+            });
         }
 
+        function calculatePercentage() {
+
+            var len = $localStorage.results.length;
+            console.log("len", len);
+            if(len < limit){
+                return;
+            }
+
+            $localStorage.percentage.total++;
+
+            if(uscore.find($localStorage.nohit, { number : $localStorage.lastNumber.number})){
+                $localStorage.percentage.nonAppeared++;
+            }else{
+                $localStorage.percentage.appeared++;
+            }
+        }
 
         /**
          * undo last result
@@ -56,7 +87,7 @@
          */
         function undoResult() {
             Result.undo();
-            last20();
+            last20NotSeenNumbers();
         }
 
         //reset database to default position
