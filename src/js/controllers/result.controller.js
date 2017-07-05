@@ -12,7 +12,7 @@
      */
     function ResultController($localStorage, databaseService, Result, uscore) {
         var vm = this;
-        var limit = 21;
+        var limit = 26;
         //keypad number 0-36
         vm.keypadNumbers = getKeypadNumbers();
 
@@ -20,6 +20,7 @@
         this.addResult = addResult;
         this.undoResult = undoResult;
         this.reset = reset;
+        this.recalculate = recalculate;
 
         //add new result
         function addResult(num) {
@@ -47,18 +48,16 @@
                 }
             });
 
-            angular.forEach($localStorage.lastTwentyOutcome, function (outcome) {
-                var numbers = uscore.filter(last20, { number : outcome.number });
-                if(numbers.length > 1){
-                    uscore.remove($localStorage.lastTwentyOutcome, { number : outcome.number });
-                }
-            });
+            // angular.forEach($localStorage.lastTwentyOutcome, function (outcome) {
+            //     var numbers = uscore.filter(last20, { number : outcome.number });
+            //     if(numbers.length > 1){
+            //         uscore.remove($localStorage.lastTwentyOutcome, { number : outcome.number });
+            //     }
+            // });
         }
 
         function calculatePercentage() {
-
             var len = $localStorage.results.length;
-            console.log("len", len);
             if(len < limit){
                 return;
             }
@@ -70,6 +69,15 @@
             }else{
                 $localStorage.percentage.appeared++;
             }
+        }
+
+        function recalculate() {
+            var results = angular.copy($localStorage.results);
+            databaseService.reset();
+
+            angular.forEach(results, function (result) {
+                addResult(result.number);
+            });
         }
 
         /**

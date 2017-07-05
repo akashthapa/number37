@@ -19,7 +19,7 @@
                 </ul>
             </div>
 
-            <div ng-if="main.$storage.nohit.length > 24 && main.$storage.nohit.length < 12" class="text-center text-success">
+            <div ng-if="main.$storage.nohit.length > 24 && main.$storage.nohit.length < 10" class="text-center text-success">
                 Please wait.....
             </div>
 
@@ -57,7 +57,6 @@
             <br/>
             <p class="text-center">
                 <a href="javascript:void(0)" ng-click="result.reset()"><strong>RESET</strong></a>
-                result (<strong>{{main.$storage.lastNumber.number}}</strong>)
                 count (<strong>{{main.$storage.results.length}}</strong>)
             </p>
 
@@ -65,6 +64,10 @@
             <p ng-if="main.$storage.results.length" class="results">
                 <b ng-repeat="result in main.$storage.results track by $index " class="{{result.color}}">{{result.number}} </b>
             </p>
+
+            <br>
+
+            <a href="#" ng-click="result.recalculate()">View</a>
 
         </div>
     </div>
