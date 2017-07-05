@@ -1,0 +1,29 @@
+<div class="scrollable">
+    <div class="scrollable-content">
+        <div class="section">
+            <p class="text-center">----- Cold & Hot -----</p>
+
+            <div class="row-numbers">
+                <span ng-repeat="n in main.$storage.numbers | orderBy:'count' track by $index ">
+                    {{n.number}}(<strong>{{n.count}}</strong>)
+                </span>
+            </div>
+
+            <br/>
+            <p class="text-center">
+                <a href="javascript:void(0)" ng-click="result.reset()"><strong>RESET</strong></a>
+                count (<strong>{{main.$storage.results.length}}</strong>)
+            </p>
+
+            <br/>
+            <p ng-if="main.$storage.results.length" class="results">
+                <b ng-repeat="result in main.$storage.results track by $index " class="{{result.color}}">{{result.number}} </b>
+            </p>
+
+            <br>
+
+            <a href="#" ng-click="result.recalculate()">View</a>
+
+        </div>
+    </div>
+</div>

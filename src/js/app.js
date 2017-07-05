@@ -19,4 +19,11 @@ function config($routeProvider){
     controllerAs: 'home'
   });
 
+    $routeProvider.when('/statics', {
+        templateUrl: 'statics.html',
+        reloadOnSearch: false
+        // controller: 'HomeController',
+        // controllerAs: 'home'
+    });
+
 }

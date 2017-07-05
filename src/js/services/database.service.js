@@ -16,28 +16,33 @@
 
         vm.reset = function reset() {
             $localStorage.results = [];
+            $localStorage.reports = [];
             $localStorage.lastNumber = 0;
             $localStorage.numbers = angular.copy(NumberStore);
-            $localStorage.percentage = {
-                appeared : 0,
-                nonAppeared : 0,
-                total : 0
-            };
-            this.resetNohit();
+            this.setOutcome();
         };
 
-        vm.resetNohit = function resetNohit() {
-            $localStorage.nohit = angular.copy(NumberStore);
-            $localStorage.lastTwentyOutcome = [];
+        vm.setOutcome = function setOutcome() {
+            $localStorage.outcome = {
+                db: [],
+                unseen: angular.copy(NumberStore),
+                seen: []
+            };
         };
+
+
         //results
         if (!angular.isArray($localStorage.results)) {
             $localStorage.results = [];
         }
+//results
+        if (!angular.isArray($localStorage.reports)) {
+            $localStorage.reports = [];
+        }
 
         //results
-        if (!angular.isArray($localStorage.nohit)) {
-            this.resetNohit();
+        if (!angular.isObject($localStorage.outcome)) {
+            this.setOutcome();
         }
 
         //Last Result Number
@@ -50,12 +55,5 @@
             $localStorage.numbers = angular.copy(NumberStore);
         }
 
-        if (!angular.isObject($localStorage.percentage)) {
-            $localStorage.percentage = {
-                appeared : 0,
-                nonAppeared : 0,
-                total : 0
-            };
-        }
     }
 })();

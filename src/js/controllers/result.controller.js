@@ -25,13 +25,14 @@
         //add new result
         function addResult(num) {
             Result.add(num);
-            calculatePercentage();
-            last20NotSeenNumbers();
+            addAppearanceHistory();
+            // calculatePercentage();
+            seenNumbers();
         }
 
-        function last20NotSeenNumbers() {
+        function seenNumbers() {
             var last20;
-            databaseService.resetNohit();
+            databaseService.setOutcome();
 
             var len = $localStorage.results.length;
             if(len < limit){
@@ -41,38 +42,37 @@
             last20 = $localStorage.results.slice(0, limit);
 
             angular.forEach(last20, function (result) {
-                uscore.remove($localStorage.nohit, {number: result.number});
+                uscore.remove($localStorage.outcome.unseen, {number: result.number});
 
-                if(!uscore.find($localStorage.lastTwentyOutcome, {number: result.number})){
-                    $localStorage.lastTwentyOutcome.unshift(result);
+                if(!uscore.find($localStorage.outcome.seen, {number: result.number})){
+                    $localStorage.outcome.seen.unshift(result);
                 }
             });
-
-            // angular.forEach($localStorage.lastTwentyOutcome, function (outcome) {
-            //     var numbers = uscore.filter(last20, { number : outcome.number });
-            //     if(numbers.length > 1){
-            //         uscore.remove($localStorage.lastTwentyOutcome, { number : outcome.number });
-            //     }
-            // });
         }
 
-        function calculatePercentage() {
+        function addAppearanceHistory() {
             var len = $localStorage.results.length;
             if(len < limit){
                 return;
             }
+            if(uscore.find($localStorage.outcome.unseen, { number : $localStorage.lastNumber.number})){
 
-            $localStorage.percentage.total++;
-
-            if(uscore.find($localStorage.nohit, { number : $localStorage.lastNumber.number})){
-                $localStorage.percentage.nonAppeared++;
+                $localStorage.reports.unshift({
+                    seen : 0,
+                    unseen: 1
+                });
             }else{
-                $localStorage.percentage.appeared++;
+                $localStorage.reports.unshift({
+                    seen : 1,
+                    unseen: 0
+                });
+
             }
         }
 
+
         function recalculate() {
-            var results = angular.copy($localStorage.results);
+            var results = _.reverse(angular.copy($localStorage.results));
             databaseService.reset();
 
             angular.forEach(results, function (result) {
@@ -95,7 +95,7 @@
          */
         function undoResult() {
             Result.undo();
-            last20NotSeenNumbers();
+            seenNumbers();
         }
 
         //reset database to default position
