@@ -4,15 +4,14 @@
     angular.module('Nohit.controller')
         .controller('ResultController', ResultController);
 
-    ResultController.$inject = ['$localStorage', 'databaseService', 'Result', 'uscore'];
+    ResultController.$inject = ['$localStorage', 'databaseService', 'Result', 'uscore', 'SampleData', '$scope'];
     /**
      * Result Controller
      * @param $localStorage
      * @constructor
      */
-    function ResultController($localStorage, databaseService, Result, uscore) {
+    function ResultController($localStorage, databaseService, Result, uscore, SampleData, $scope) {
         var vm = this;
-        var limit = 26;
         //keypad number 0-36
         vm.keypadNumbers = getKeypadNumbers();
 
@@ -21,6 +20,17 @@
         this.undoResult = undoResult;
         this.reset = reset;
         this.recalculate = recalculate;
+        this.analyseFromSampleData = analyseFromSampleData;
+        this.stepAdd = stepAdd;
+
+        $scope.limit = 24;
+        $scope.i = 0;
+
+        function stepAdd() {
+            var num = SampleData[$scope.i++];
+            addResult(num);
+            return false;
+        }
 
         //add new result
         function addResult(num) {
@@ -35,11 +45,11 @@
             databaseService.setOutcome();
 
             var len = $localStorage.results.length;
-            if(len < limit){
+            if(len < $scope.limit){
                 return;
             }
 
-            last20 = $localStorage.results.slice(0, limit);
+            last20 = $localStorage.results.slice(0, $scope.limit);
 
             angular.forEach(last20, function (result) {
                 uscore.remove($localStorage.outcome.unseen, {number: result.number});
@@ -52,7 +62,7 @@
 
         function addAppearanceHistory() {
             var len = $localStorage.results.length;
-            if(len < limit){
+            if(len < $scope.limit){
                 return;
             }
             if(uscore.find($localStorage.outcome.unseen, { number : $localStorage.lastNumber.number})){
@@ -70,13 +80,27 @@
             }
         }
 
+        function undoAppearanceHistory() {
+            $localStorage.reports.shift();
+        }
+
 
         function recalculate() {
-            var results = _.reverse(angular.copy($localStorage.results));
+            var results = uscore.reverse(angular.copy($localStorage.results));
             databaseService.reset();
 
             angular.forEach(results, function (result) {
                 addResult(result.number);
+            });
+        }
+
+        function analyseFromSampleData() {
+            // var data = uscore.reverse(SampleData);
+            var data = SampleData;
+            databaseService.reset();
+
+            angular.forEach(data, function (num) {
+                addResult(num);
             });
         }
 
@@ -95,6 +119,7 @@
          */
         function undoResult() {
             Result.undo();
+            undoAppearanceHistory();
             seenNumbers();
         }
 

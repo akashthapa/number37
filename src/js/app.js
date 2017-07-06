@@ -26,4 +26,11 @@ function config($routeProvider){
         // controllerAs: 'home'
     });
 
+    $routeProvider.when('/analyser', {
+        templateUrl: 'analyser.html',
+        reloadOnSearch: false,
+        controller: 'ResultController',
+        controllerAs: '$ctrl'
+    });
+
 }
