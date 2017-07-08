@@ -10,11 +10,12 @@
                        ng-click="result.undoResult()"><i class="fa fa-undo"></i></label>
             </div>
 
-            <div ng-if="main.$storage.outcome.unseen.length > 24 && main.$storage.outcome.unseen.length < 10" class="text-center text-success">
+            <div ng-if="main.$storage.outcome.unseen.length > 28 && main.$storage.outcome.unseen.length < 8" class="text-center text-success">
                 Please wait.....
             </div>
 
-            <div ng-if="main.$storage.outcome.seen.length > 10 && main.$storage.outcome.seen.length < 24">
+            <!--<div ng-if="main.$storage.outcome.seen.length > 7 && main.$storage.outcome.seen.length < 28">-->
+            <div>
                 <p class="text-center">----- Seen {{ main.$storage.outcome.seen.length }} -----</p>
                 <ul class="nohit-numbers">
                     <li ng-repeat="n in main.$storage.outcome.seen | orderBy:'number' track by $index ">
@@ -23,7 +24,8 @@
                 </ul>
             </div>
 
-            <div ng-if="main.$storage.outcome.unseen.length > 10 && main.$storage.outcome.unseen.length < 24">
+            <!--<div ng-if="main.$storage.outcome.unseen.length > 7 && main.$storage.outcome.unseen.length < 28">-->
+            <div>
                 <p class="text-center">----- Unseen {{ main.$storage.outcome.unseen.length }} -----</p>
                 <ul class="nohit-numbers">
                     <li ng-repeat="n in main.$storage.outcome.unseen track by $index ">
@@ -38,6 +40,15 @@
             <br>
             <a href="javascript:void(1)" ng-click="result.stepAdd()">Add</a>
             <br>
+            <p>
+                Total : {{total}}
+                <br>
+                Seen : {{seen}}
+                <br>
+                Unseen : {{unseen}}
+                <br>
+                profit : {{ (position.win - position.loss) * 200}}
+            </p>
             <br>
             <table class="table table-responsive" ng-if="main.$storage.reports.length">
                 <tr>

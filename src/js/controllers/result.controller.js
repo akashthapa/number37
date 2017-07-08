@@ -23,11 +23,21 @@
         this.analyseFromSampleData = analyseFromSampleData;
         this.stepAdd = stepAdd;
 
-        $scope.limit = 24;
+        $scope.limit = 36;
         $scope.i = 0;
+        $scope.total = 0;
+        $scope.seen = 0;
+        $scope.unseen = 0;
+        $scope.position = {
+            win : 0,
+            loss : 0
+        };
+
+        var data = uscore.reverse(SampleData);
+        // var data = SampleData;
 
         function stepAdd() {
-            var num = SampleData[$scope.i++];
+            var num = data[$scope.i++];
             addResult(num);
             return false;
         }
@@ -65,13 +75,22 @@
             if(len < $scope.limit){
                 return;
             }
+            $scope.total++;
             if(uscore.find($localStorage.outcome.unseen, { number : $localStorage.lastNumber.number})){
+                var l = $localStorage.outcome.unseen.length;
+                $scope.position.win += 36-l;
 
+
+                $scope.unseen++;
                 $localStorage.reports.unshift({
                     seen : 0,
                     unseen: 1
                 });
             }else{
+                $scope.position.loss += $localStorage.outcome.unseen.length;
+
+
+                $scope.seen++;
                 $localStorage.reports.unshift({
                     seen : 1,
                     unseen: 0
@@ -95,8 +114,8 @@
         }
 
         function analyseFromSampleData() {
-            // var data = uscore.reverse(SampleData);
-            var data = SampleData;
+            var data = uscore.reverse(SampleData);
+            // var data = SampleData;
             databaseService.reset();
 
             angular.forEach(data, function (num) {
