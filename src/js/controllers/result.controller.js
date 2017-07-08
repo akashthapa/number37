@@ -4,13 +4,13 @@
     angular.module('Nohit.controller')
         .controller('ResultController', ResultController);
 
-    ResultController.$inject = ['$localStorage', 'databaseService', 'Result', 'uscore', 'SampleData', '$scope'];
+    ResultController.$inject = ['$localStorage', 'databaseService', 'Result', 'uscore', 'SampleData', '$scope', '$rootScope'];
     /**
      * Result Controller
      * @param $localStorage
      * @constructor
      */
-    function ResultController($localStorage, databaseService, Result, uscore, SampleData, $scope) {
+    function ResultController($localStorage, databaseService, Result, uscore, SampleData, $scope, $rootScope) {
         var vm = this;
         //keypad number 0-36
         vm.keypadNumbers = getKeypadNumbers();
@@ -21,32 +21,13 @@
         this.reset = reset;
         this.recalculate = recalculate;
         this.analyseFromSampleData = analyseFromSampleData;
-        this.stepAdd = stepAdd;
 
         $scope.limit = 36;
-        $scope.i = 0;
-        $scope.total = 0;
-        $scope.seen = 0;
-        $scope.unseen = 0;
-        $scope.position = {
-            win : 0,
-            loss : 0
-        };
-
-        var data = uscore.reverse(SampleData);
-        // var data = SampleData;
-
-        function stepAdd() {
-            var num = data[$scope.i++];
-            addResult(num);
-            return false;
-        }
 
         //add new result
         function addResult(num) {
             Result.add(num);
             addAppearanceHistory();
-            // calculatePercentage();
             seenNumbers();
         }
 
@@ -75,22 +56,22 @@
             if(len < $scope.limit){
                 return;
             }
-            $scope.total++;
+            $rootScope.total++;
             if(uscore.find($localStorage.outcome.unseen, { number : $localStorage.lastNumber.number})){
                 var l = $localStorage.outcome.unseen.length;
-                $scope.position.win += 36-l;
+                $rootScope.position.win += 36-l;
 
 
-                $scope.unseen++;
+                $rootScope.unseen++;
                 $localStorage.reports.unshift({
                     seen : 0,
                     unseen: 1
                 });
             }else{
-                $scope.position.loss += $localStorage.outcome.unseen.length;
+                $rootScope.position.loss += $localStorage.outcome.unseen.length;
 
 
-                $scope.seen++;
+                $rootScope.seen++;
                 $localStorage.reports.unshift({
                     seen : 1,
                     unseen: 0
