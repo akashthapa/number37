@@ -21,8 +21,12 @@
         this.reset = reset;
         this.recalculate = recalculate;
         this.analyseFromSampleData = analyseFromSampleData;
+        vm.wheel = {
+            left : [1, 20, 14, 31, 9, 22, 18, 29, 7, 28, 12, 35, 3, 26, 0, 32, 15, 19],
+            right : [4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33]
+        };
 
-        $scope.limit = 36;
+        $scope.limit = 20;
 
         //add new result
         function addResult(num) {
@@ -57,10 +61,24 @@
                 return;
             }
             $rootScope.total++;
+            // if(vm.wheel.left.indexOf($localStorage.lastNumber.number) !== -1){
+            //     $localStorage.reports.unshift({
+            //         seen : 0,
+            //         unseen: 1
+            //     });
+            // }else if(vm.wheel.right.indexOf($localStorage.lastNumber.number) !== -1){
+            //     $localStorage.reports.unshift({
+            //         seen : 1,
+            //         unseen: 0
+            //     });
+            // }
+
+
+
             if(uscore.find($localStorage.outcome.unseen, { number : $localStorage.lastNumber.number})){
+                // $rootScope.position.loss += $localStorage.outcome.seen.length;
                 var l = $localStorage.outcome.unseen.length;
                 $rootScope.position.win += 36-l;
-
 
                 $rootScope.unseen++;
                 $localStorage.reports.unshift({
@@ -69,6 +87,10 @@
                 });
             }else{
                 $rootScope.position.loss += $localStorage.outcome.unseen.length;
+                // var l = $localStorage.outcome.seen.length;
+                // $rootScope.position.win += 36-l;
+
+
 
 
                 $rootScope.seen++;
