@@ -26,7 +26,7 @@
             right : [4, 21, 2, 25, 17, 34, 6, 27, 13, 36, 11, 30, 8, 23, 10, 5, 24, 16, 33]
         };
 
-        $scope.limit = 20;
+        $scope.limit = 25;
 
         //add new result
         function addResult(num) {
